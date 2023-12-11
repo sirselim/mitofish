@@ -31,7 +31,7 @@ There are a few optional arguments. If you don’t provide any values for these 
 
 ### help
 
-```sh
+```
 $ ./mitofish.sh --help
 mitofish - version: 0.3dev
 Usage: ./mitofish.sh [options]
