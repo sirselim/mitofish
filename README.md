@@ -1,5 +1,6 @@
 # mitofish
- This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
+
+This script generates "baited" sequences from across a provided genome to search for them in fastq file(s).
 
 ## depends
 
@@ -9,14 +10,16 @@ For this script to run you need to have the tool `seqkit` (https://bioinf.shenwe
 
 The required input from the user is:
 
-* `--genome-size` = the rough size of the mt genome (in base pairs) being used to create the bait sequences (doesn’t need to be exact)
-* `--reference` = the reference mt genome in fasta format, this should be a mt genome closely related to the one you are trying to identify.
-* `--output` = the file you want to save the extracted reads to. This can be either fastq/fq (not compressed) or fastq.gz/fq.gz (compressed)
+* `--genome-size` - the rough size of the mt genome (in base pairs) being used to create the bait sequences (doesn’t need to be exact).
+* `--reference` - the reference mt genome in fasta format, this should be a mt genome closely related to the one you are trying to identify.
+* `--fastq-input` - the path to a fastq, or set of fastq, files for reads to be extracted from.
+* `--output` - the file you want to save the extracted reads to. This can be either fastq/fq (not compressed) or fastq.gz/fq.gz (compressed).
 
 There are a few optional arguments. If you don’t provide any values for these the defaults will be used:
 
-* `--threads` = the number of CPU threads to use in processing. (default: 4)
-* `--bait-length` = the length of the bait sequences (in base pairs) being used to “pull out” the reads that match them. (default: 60)
+* `--threads` - the number of CPU threads to use in processing, (default: 4).
+* `--bait-length` - the length of the bait sequences (in base pairs) being used to “pull out” the reads that match them, (default: 60).
+* `--mismatch` - paramter passed to `seqkit grep` to determine the number of mismatches allowed in the sequence search term (the baits), (default: 3).
 
 ### example
 
@@ -30,6 +33,8 @@ There are a few optional arguments. If you don’t provide any values for these 
 ```
 
 ### help
+
+To display the help options: `./mitofish.sh --help`:
 
 ```
 $ ./mitofish.sh --help
