@@ -32,6 +32,8 @@ There are a few optional arguments. If you don’t provide any values for these 
   --output mitofish_results.fastq.gz
 ```
 
+![](images/20231212121018.png)
+
 ### help
 
 To display the help options: `./mitofish.sh --help`:
