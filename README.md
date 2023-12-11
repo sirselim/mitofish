@@ -23,6 +23,8 @@ There are a few optional arguments. If you don’t provide any values for these 
 
 ### example
 
+Test data is available in the `test_data` directory. THe below example will process this test yeast data set and extract potential mitochondrial reads based on a reference mitochondrial genome.
+
 ```sh
 ./mitofish.sh --genome-size 49300 \
   --reference ./test_data/test_reference.fasta \
@@ -31,6 +33,8 @@ There are a few optional arguments. If you don’t provide any values for these 
   --bait-length 30 \
   --output mitofish_results.fastq.gz
 ```
+
+A successful run should generate the below output, identifying 57 potential mitochondrial reads.
 
 ![](images/20231212121018.png)
 
