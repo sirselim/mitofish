@@ -3,12 +3,13 @@
 ## mitofish.sh version 0.3 (development)
 # author: Miles Benton
 # created: 2023/12/11 08:17:08
-# last modified: 2023/12/12 09:56:56
+# last modified: 2023/12/12 12:18:59
 
 # This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
 # results are passed to stdout and can be redirected to fastq/fq or fastq.gz (via bgzip)
 
 #TODO list
+# - look at user defined intervals/spacing, would it be useful?
 # - explore using flexiplex rather than seqkit? 
 
 # depends on:
@@ -48,7 +49,7 @@ show_help() {
     echo "Options:"
     echo "  -h, --help          Show this help message and exit"
     echo "  -t, --threads       [optional] Number of CPU threads to use for processing, default: 4"
-    echo "  -g, --genome-size   Approx size of the reference geneome being used, example: 16500 (for mammalian mt genomes)"
+    echo "  -g, --genome-size   Approx size of the reference genome being used, example: 16500 (for mammalian mt genomes)"
     echo "  -b, --bait-length   [optional] Length of bait sequence used for searching, default: 60"
     echo "  -m, --mismatch      [optional] Number of mismatches to allow in the bait sequences, default: 3"
     echo "  -r, --reference     Reference file to generate bait sequences"

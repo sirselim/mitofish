@@ -8,6 +8,11 @@ For this script to run you need to have the tool `seqkit` (https://bioinf.shenwe
 
 ## usage
 
+```
+Usage: ./mitofish.sh [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
+      [-m, --mismatch <mismatch>] [-r, --reference <reference>] [-f, --fastq-input <fastq_input>] [-o, --output <output>]
+```
+
 The required input from the user is:
 
 * `--genome-size` - the rough size of the mt genome (in base pairs) being used to create the bait sequences (doesn’t need to be exact).
@@ -23,7 +28,7 @@ There are a few optional arguments. If you don’t provide any values for these 
 
 ### example
 
-Test data is available in the `test_data` directory. THe below example will process this test yeast data set and extract potential mitochondrial reads based on a reference mitochondrial genome.
+Test data is available in the `test_data` directory. The below example will process this test yeast data set and extract potential mitochondrial reads based on a reference mitochondrial genome.
 
 ```sh
 ./mitofish.sh --genome-size 49300 \
@@ -49,7 +54,7 @@ Usage: ./mitofish.sh [options]
 Options:
   -h, --help          Show this help message and exit
   -t, --threads       [optional] Number of CPU threads to use for processing, default: 4
-  -g, --genome-size   Approx size of the reference geneome being used, example: 16500 (for mammalian mt genomes)
+  -g, --genome-size   Approx size of the reference genome being used, example: 16500 (for mammalian mt genomes)
   -b, --bait-length   [optional] Length of bait sequence used for searching, default: 60
   -m, --mismatch      [optional] Number of mismatches to allow in the bait sequences, default: 3
   -r, --reference     Reference file to generate bait sequences
