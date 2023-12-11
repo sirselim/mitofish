@@ -1,11 +1,16 @@
 #!/bin/bash
 
-## mitofish.sh version 0.2
-## author: Miles Benton
-## created: 2023/12/11 08:17:08
+## mitofish.sh version 0.3 (development)
+# author: Miles Benton
+# created: 2023/12/11 08:17:08
+# last modified: 2023/12/11 18:31:52
 
 # This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
 # results are passed to stdout and can be redirected to fastq/fq or fastq.gz (via bgzip)
+
+#TODO list
+# - add a user option to change the number of mismatches in the bait sequence
+# - explore using flexiplex rather than seqkit? 
 
 # depends on:
 # seqkit
@@ -15,6 +20,9 @@ if ! command -v seqkit &> /dev/null; then
     echo "Error: 'seqkit' is not installed. Please install it before running this script."
     exit 1
 fi
+
+# version
+VERSION="0.3dev"
 
 # required input
 threads="4"
@@ -26,39 +34,62 @@ output=""
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 [--threads <threads> (optional)] [--genome-size <genome_size>] [--bait-length <bait_length> (optional)] [--reference <reference>] [--fastq-input <fastq_input>] [--output <output>]"
+    echo -e "Usage: $0 [--threads <threads> (optional)] [--genome-size <genome_size>] [--bait-length <bait_length> (optional)] [--reference <reference>] [--fastq-input <fastq_input>] [--output <output>]\n"
+    echo -e "$0 -h | --help will display the help menu"
+    show_help
     exit 1
+}
+
+# Help function
+show_help() {
+    echo "mitofish - version: ${VERSION}"
+    echo "Usage: $0 [options]"
+    echo "Options:"
+    echo "  -h, --help          Show this help message and exit"
+    echo "  -t, --threads       [optional] Number of CPU threads to use for processing, default: 4"
+    echo "  -g, --genome-size   Approx size of the reference geneome being used, example: 16500 (for mammalian mt genomes)"
+    echo "  -b, --bait-length   [optional] Length of bait sequence used for searching, default: 60"
+    echo "  -r, --reference     Reference file to generate bait sequences"
+    echo "  -f, --fastq-input   Path to fq|fastq file to extract reads from"
+    echo "  -o, --output        File path for extracted reads to be written to"
 }
 
 # Process command-line arguments
 while [ "$#" -gt 0 ]; do
     case "$1" in
-        --threads)
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        -t|--threads)
             shift
             threads="$1"
             ;;
-        --genome-size)
+        -g|--genome-size)
             shift
             genome_size="$1"
             ;;
-        --bait-length)
+        -b|--bait-length)
             shift
             bait_length="$1"
             ;;
-        --reference)
+        -r|--reference)
             shift
             reference="$1"
             ;;
-        --fastq-input)
+        -f|--fastq-input)
             shift
             fastq_input="$1"
             ;;
-        --output)
+        -o|--output)
             shift
             output="$1"
             ;;
         *)
+            echo "Unknown option: $1"
             usage
+            show_help
+            exit 1
             ;;
     esac
     shift
@@ -66,7 +97,7 @@ done
 
 # Check if required inputs are provided
 if [ -z "$genome_size" ] || [ -z "$reference" ] || [ -z "$fastq_input" ] || [ -z "$output" ]; then
-    echo "Error: All inputs are required."
+    echo -e "Error: All inputs are required."
     usage
 fi
 
