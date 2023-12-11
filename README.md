@@ -19,7 +19,7 @@ There are a few optional arguments. If you don’t provide any values for these 
 
 * `--threads` - the number of CPU threads to use in processing, (default: 4).
 * `--bait-length` - the length of the bait sequences (in base pairs) being used to “pull out” the reads that match them, (default: 60).
-* `--mismatch` - paramter passed to `seqkit grep` to determine the number of mismatches allowed in the sequence search term (the baits), (default: 3).
+* `--mismatch` - parameter passed to `seqkit grep` to determine the number of mismatches allowed in the sequence search term (the baits), (default: 3).
 
 ### example
 
