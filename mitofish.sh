@@ -1,15 +1,14 @@
-#!/bin/bash
+#!/bin/bash -l
 
 ## mitofish.sh version 0.3 (development)
 # author: Miles Benton
 # created: 2023/12/11 08:17:08
-# last modified: 2023/12/11 18:31:52
+# last modified: 2023/12/12 09:56:56
 
 # This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
 # results are passed to stdout and can be redirected to fastq/fq or fastq.gz (via bgzip)
 
 #TODO list
-# - add a user option to change the number of mismatches in the bait sequence
 # - explore using flexiplex rather than seqkit? 
 
 # depends on:
@@ -31,11 +30,13 @@ bait_length="60"
 reference=""
 fastq_input=""
 output=""
+mismatch="3"
 
 # Function to display usage information
 usage() {
-    echo -e "Usage: $0 [--threads <threads> (optional)] [--genome-size <genome_size>] [--bait-length <bait_length> (optional)] [--reference <reference>] [--fastq-input <fastq_input>] [--output <output>]\n"
-    echo -e "$0 -h | --help will display the help menu"
+    echo -e "Usage: $0 [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
+      [-m, --mismatch <mismatch>] [-r, --reference <reference>] [-f, --fastq-input <fastq_input>] [-o, --output <output>]\n"
+    echo -e "$0 -h | --help will display the help menu\n"
     show_help
     exit 1
 }
@@ -49,6 +50,7 @@ show_help() {
     echo "  -t, --threads       [optional] Number of CPU threads to use for processing, default: 4"
     echo "  -g, --genome-size   Approx size of the reference geneome being used, example: 16500 (for mammalian mt genomes)"
     echo "  -b, --bait-length   [optional] Length of bait sequence used for searching, default: 60"
+    echo "  -m, --mismatch      [optional] Number of mismatches to allow in the bait sequences, default: 3"
     echo "  -r, --reference     Reference file to generate bait sequences"
     echo "  -f, --fastq-input   Path to fq|fastq file to extract reads from"
     echo "  -o, --output        File path for extracted reads to be written to"
@@ -72,6 +74,10 @@ while [ "$#" -gt 0 ]; do
         -b|--bait-length)
             shift
             bait_length="$1"
+            ;;
+        -m|--mismatch)
+            shift
+            mismatch="$1"
             ;;
         -r|--reference)
             shift
@@ -107,6 +113,7 @@ echo -e "Selected parameters:"
 echo -e "  - threads: $threads"
 echo -e "  - genome-size: $genome_size"
 echo -e "  - bait-length: $bait_length"
+echo -e "  - mismatch: $mismatch"
 echo -e "  - reference: $reference"
 echo -e "  - fastq-input: $fastq_input"
 echo -e "  - output: $output"
@@ -179,7 +186,7 @@ SEQ_LIST="${filtered_array}"
 ## use seqkit grep to pull out mt reads based on a prior reference or near-related species
 echo -e "... seqkit running ..."
 # seqkit grep for mt reads
-seqkit grep -j "${threads}" -i -m 3 \
+seqkit grep -j "${threads}" -i -m "${mismatch}" \
   -p "${SEQ_LIST[0]}" \
   -p "${SEQ_LIST[1]}" \
   -p "${SEQ_LIST[2]}" \
