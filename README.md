@@ -1,4 +1,7 @@
-![](./logo.png)
+
+<p align="center">
+  <img width="310" height="260" src="./logo.png">
+</p>
 
 # mitofish
 
