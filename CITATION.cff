@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software and wish to cite it, please cite it as below."
+authors:
+- family-names: "Benton"
+  given-names: "Miles C"
+  orcid: "https://orcid.org/0000-0003-3442-965X"
+title: "mitofish: quickly extract mitochondrial reads from fastq files"
+version: 0.3
+date-released: 2023-12-12
+url: "https://github.com/sirselim/mitofish/tree/v0.3"
