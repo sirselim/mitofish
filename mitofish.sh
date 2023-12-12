@@ -1,9 +1,9 @@
 #!/bin/bash -l
 
-## mitofish.sh version 0.3 (development)
+## mitofish.sh version 0.3
 # author: Miles Benton
 # created: 2023/12/11 08:17:08
-# last modified: 2023/12/12 12:18:59
+# last modified: 2023/12/12 13:05:48
 
 # This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
 # results are passed to stdout and can be redirected to fastq/fq or fastq.gz (via bgzip)
@@ -22,7 +22,7 @@ if ! command -v seqkit &> /dev/null; then
 fi
 
 # version
-VERSION="0.3dev"
+VERSION="0.3"
 
 # required input
 threads="4"

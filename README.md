@@ -5,7 +5,9 @@
 
 # mitofish
 
-This script generates "baited" sequences from across a provided genome to search for them in fastq file(s).
+This script generates "baited" sequences from across a provided genome to search for them in fastq file(s), which are then extracted out to a new fastq file for downstream processing.
+
+This tool was designed initially to quickly pull mitochondrial reads from fastq files generated during live Nanopore sequencing runs. This was essentially fishing for mitochondrial reads, hence the name mitofish. However it should work for any reference sequences provided. At the end of the day it's just a bash wrapper utilising the amazing `seqkit grep` function.
 
 ## depends
 
