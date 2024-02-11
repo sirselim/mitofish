@@ -15,7 +15,7 @@ For this script to run you need to have the tool `seqkit` ([https://bioinf.shenw
 
 ## usage
 
-```bash
+```sh
 Usage: ./mitofish.sh [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
       [-m, --mismatch <mismatch>] [-r, --reference <reference>] [-f, --fastq-input <fastq_input>] [-o, --output <output>]
 ```
@@ -54,7 +54,7 @@ A successful run should generate the below output, identifying 57 potential mito
 
 To display the help options: `./mitofish.sh --help`:
 
-```bash
+```sh
 $ ./mitofish.sh --help
 mitofish - version: 0.3dev
 Usage: ./mitofish.sh [options]
