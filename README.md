@@ -71,7 +71,7 @@ Options:
 
 ## auxilary scripts
 
-I added a couple of extra scripts which are useful in trying to determine the "true" length of the mitochondiral genome, and in turn help close the circle. These are located in `./scripts/`:
+I added a couple of extra scripts which are useful in trying to determine the "true" length of the mitochondrial genome, and in turn help close the circle. These are located in `./scripts/`:
 
-* `mito_closer.py` - uses sequence from the start and end of an assembly to identify any sequence in between, which is usseful for "closing" the genome (and providing a more accurate linear length).
+* `mito_closer.py` - uses sequence from the start and end of an assembly to identify any sequence in between, which is useful for "closing" the genome (and providing a more accurate linear length).
 * `mito_close_consensus.py` - takes the fasta input from `mito_closer.py` and generates a consensus sequence, which can then be added to the original assembly (hopefully completing it).
