@@ -3,7 +3,7 @@
 ## mitofish.sh version 0.3
 # author: Miles Benton
 # created: 2023/12/11 08:17:08
-# last modified: 2023/12/12 13:05:48
+# last modified: 2023/12/12 13:46:33
 
 # This script generates "baited" sequences from across a provided genome to search for them in fastq file(s)
 # results are passed to stdout and can be redirected to fastq/fq or fastq.gz (via bgzip)
@@ -48,6 +48,7 @@ show_help() {
     echo "Usage: $0 [options]"
     echo "Options:"
     echo "  -h, --help          Show this help message and exit"
+    echo "  -v, --version       Show the current version of mitofish"
     echo "  -t, --threads       [optional] Number of CPU threads to use for processing, default: 4"
     echo "  -g, --genome-size   Approx size of the reference genome being used, example: 16500 (for mammalian mt genomes)"
     echo "  -b, --bait-length   [optional] Length of bait sequence used for searching, default: 60"
@@ -57,11 +58,20 @@ show_help() {
     echo "  -o, --output        File path for extracted reads to be written to"
 }
 
+# Version function
+show_version() {
+    echo "mitofish - version: ${VERSION}"
+} 
+
 # Process command-line arguments
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -h|--help)
             show_help
+            exit 0
+            ;;
+        -v|--version)
+            show_version
             exit 0
             ;;
         -t|--threads)
@@ -109,7 +119,7 @@ if [ -z "$genome_size" ] || [ -z "$reference" ] || [ -z "$fastq_input" ] || [ -z
 fi
 
 # displaying the user input
-echo -e "\n... running mitofish ...\n"
+echo -e "\n... running mitofish - version ${VERSION}...\n"
 echo -e "Selected parameters:"
 echo -e "  - threads: $threads"
 echo -e "  - genome-size: $genome_size"
