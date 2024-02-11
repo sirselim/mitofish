@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="310" height="260" src="./logo.png">
+  <img width="310" height="260" src="images/logo.png">
 </p>
 
 # mitofish
@@ -11,11 +11,11 @@ This tool was designed initially to quickly pull mitochondrial reads from fastq 
 
 ## depends
 
-For this script to run you need to have the tool `seqkit` (https://bioinf.shenwei.me/seqkit/) installed on the computer you are running on.
+For this script to run you need to have the tool `seqkit` ([https://bioinf.shenwei.me/seqkit/](https://bioinf.shenwei.me/seqkit/)) installed on the computer you are running on.
 
 ## usage
 
-```
+```bash
 Usage: ./mitofish.sh [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
       [-m, --mismatch <mismatch>] [-r, --reference <reference>] [-f, --fastq-input <fastq_input>] [-o, --output <output>]
 ```
@@ -48,13 +48,13 @@ Test data is available in the `test_data` directory. The below example will proc
 
 A successful run should generate the below output, identifying 57 potential mitochondrial reads.
 
-![](images/20231212121018.png)
+![screenshot](images/20231212121018.png)
 
 ### help
 
 To display the help options: `./mitofish.sh --help`:
 
-```
+```bash
 $ ./mitofish.sh --help
 mitofish - version: 0.3dev
 Usage: ./mitofish.sh [options]
