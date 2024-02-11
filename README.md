@@ -16,7 +16,7 @@ For this script to run you need to have the tool `seqkit` ([https://bioinf.shenw
 ## usage
 
 ```sh
-Usage: ./mitofish.sh [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
+Usage: ./scripts/mitofish.sh [-t, --threads <threads> (optional)] [-g, --genome-size <genome_size>] [-b, --bait-length <bait_length> (optional)] 
       [-m, --mismatch <mismatch>] [-r, --reference <reference>] [-f, --fastq-input <fastq_input>] [-o, --output <output>]
 ```
 
@@ -38,7 +38,7 @@ There are a few optional arguments. If you don’t provide any values for these 
 Test data is available in the `test_data` directory. The below example will process this test yeast data set and extract potential mitochondrial reads based on a reference mitochondrial genome.
 
 ```sh
-./mitofish.sh --genome-size 49300 \
+./scripts/mitofish.sh --genome-size 49300 \
   --reference ./test_data/test_reference.fasta \
   --fastq-input ./test_data/test_reads.fastq.gz \
   --threads 8 \
@@ -52,10 +52,10 @@ A successful run should generate the below output, identifying 57 potential mito
 
 ### help
 
-To display the help options: `./mitofish.sh --help`:
+To display the help options: `./scripts/mitofish.sh --help` (make sure you are in the mitofish directory, or have mitofish in your path):
 
 ```sh
-$ ./mitofish.sh --help
+$ ./scripts/mitofish.sh --help
 mitofish - version: 0.3dev
 Usage: ./mitofish.sh [options]
 Options:
@@ -68,3 +68,10 @@ Options:
   -f, --fastq-input   Path to fq|fastq file to extract reads from
   -o, --output        File path for extracted reads to be written to
 ```
+
+## auxilary scripts
+
+I added a couple of extra scripts which are useful in trying to determine the "true" length of the mitochondiral genome, and in turn help close the circle. These are located in `./scripts/`:
+
+* `mito_closer.py` - uses sequence from the start and end of an assembly to identify any sequence in between, which is usseful for "closing" the genome (and providing a more accurate linear length).
+* `mito_close_consensus.py` - takes the fasta input from `mito_closer.py` and generates a consensus sequence, which can then be added to the original assembly (hopefully completing it).
