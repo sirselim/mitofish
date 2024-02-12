@@ -74,7 +74,9 @@ Options:
 I added a couple of extra scripts which are useful in trying to determine the "true" length of the mitochondrial genome, and in turn help close the circle. These are located in `./scripts/`:
 
 * `mito_closer.py` - uses sequence from the start and end of an assembly to identify any sequence in between, which is useful for "closing" the genome (and providing a more accurate linear length).
+  * This script takes a mito assembly as input (fasta) and then uses 30bp from either end to try and locate sequence to help complete the genome and close the circle. It relies on the logic that if the mt is circular then if you take a selection from either end of a linear assembly they will either touch (nothing between them), or there will be an amount of sequence between them. This allows the true length to be determined and essentially closes the genome.
 * `mito_close_consensus.py` - takes the fasta input from `mito_closer.py` and generates a consensus sequence, which can then be added to the original assembly (hopefully completing it).
+  * this script takes input fasta from mito_closer.py and finds a potential consensus sequence to complete the mitochondrial genome and close the loop. Consensus and reverse consensus are written out to fasta, and sequence that differs significantly is printed to stdout (with parent readID) for inspection.
 
 ### closing the circle
 
@@ -108,7 +110,15 @@ We can see that the sequence between the start and end targets is `AAGAAAA`, whi
 
 3. once we find all possible reads and extract this information we can try to create a consensus from the extracted sequences. Here is the output from the `mito_close_consensus.py` script for this example:
 
-![consensus](images/20240212132816.png)
+<!-- ![consensus](images/20240212132816.png) -->
+```sh
+❯ ~/gitrepos/mitofish/scripts/mito_close_consensus.py closer_output.fasta
+Consensus sequence: TTTTCTT
+Reverse complement of consensus sequence: AAGAAAA
+
+Filtered out sequences (due to different lengths):
+{'sequence': 'AGAAAA', 'info': ['parent_readID', '5548ca19-eb25-466b-a64e-832aa20dac2f', 'reverse', '35592', '35628']}
+```
 
 We can see that the consensus returned matches what we manually obseverd above. The script also reports any sequences that differ greatly from the majority. In this case there is a single sequence that was 1 base pair shorter than all the other sequences extracted. In this instance I chose to ignore this sequence and took the consensus that was 7 base pairs in length.
 

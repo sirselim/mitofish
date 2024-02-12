@@ -3,7 +3,7 @@
 ## mito_closer.py version 0.1 (development)
 # author: Miles Benton
 # created: 2024/02/12 09:18:03
-# last modified: 2024/02/12 12:02:34
+# last modified: 2024/02/12 15:24:14
 
 # This script takes a mito assembly as input (fasta) and then uses 30bp from either end
 # to try and locate sequence to help complete the genome and close the circle. It relies
@@ -42,7 +42,7 @@ def extract_target_sequences(fasta_file, fastq_file, output_file):
     print("End sequence RC:", end_sequence_rc)
     print("\n")
 
-    # Create a dictionary to store extracted sequences with their corresponding read IDs
+    # Create a dictionary to store extracted sequences with their corresponding headers
     extracted_sequences = {}
 
     # Search for reads containing either forward or reverse complement of start and end sequences in the FASTQ file
@@ -54,6 +54,8 @@ def extract_target_sequences(fasta_file, fastq_file, output_file):
             reverse_match = (start_sequence_rc in sequence and end_sequence_rc in sequence)
             if forward_match or reverse_match:
                 print("Read ID:", record.id)
+                orientation = "forward" if forward_match else "reverse"
+                print("Orientation:", orientation)
                 if forward_match:
                     start_index = sequence.index(start_sequence)
                     end_index = sequence.index(end_sequence)
@@ -71,13 +73,14 @@ def extract_target_sequences(fasta_file, fastq_file, output_file):
                 print("Extracted sequence:", extracted_seq)
                 
                 if extracted_seq:
-                    extracted_sequences[record.id] = extracted_seq
+                    header = f"parent_readID:{record.id}:{orientation}:{start_index}:{end_index}"
+                    extracted_sequences[header] = extracted_seq
 
     # Write the extracted sequences to the output file in FASTA format
     with open(output_file, "w") as f:
-        for read_id, seq in extracted_sequences.items():
-            f.write(f">parent_read:{read_id}\n{seq}\n")
-            
+        for header, seq in extracted_sequences.items():
+            f.write(f">{header}\n{seq}\n")
+
     # Print information about the number of extracted sequences and the output file path
     print("\nNumber of extracted sequences:", len(extracted_sequences))
     print("Extracted sequences written to:", output_file)
