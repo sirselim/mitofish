@@ -3,7 +3,7 @@
 ## mito_closer.py version 0.1 (development)
 # author: Miles Benton
 # created: 2024/02/12 09:18:03
-# last modified: 2024/02/12 15:24:14
+# last modified: 2024/02/12 15:51:22
 
 # This script takes a mito assembly as input (fasta) and then uses 30bp from either end
 # to try and locate sequence to help complete the genome and close the circle. It relies
@@ -21,6 +21,7 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 import argparse
 import gzip
+import os
 
 def extract_target_sequences(fasta_file, fastq_file, output_file):
     # Read the 30bp sequences from the start and end of the FASTA file
@@ -45,8 +46,17 @@ def extract_target_sequences(fasta_file, fastq_file, output_file):
     # Create a dictionary to store extracted sequences with their corresponding headers
     extracted_sequences = {}
 
+    # Determine if the FASTQ file is compressed or not
+    _, fastq_extension = os.path.splitext(fastq_file)
+    if fastq_extension == ".gz":
+        open_func = gzip.open
+        mode = "rt"
+    else:
+        open_func = open
+        mode = "r"
+
     # Search for reads containing either forward or reverse complement of start and end sequences in the FASTQ file
-    with gzip.open(fastq_file, "rt") as f:
+    with open_func(fastq_file, mode) as f:
         fastq_sequences = SeqIO.parse(f, "fastq")
         for record in fastq_sequences:
             sequence = str(record.seq)
@@ -88,7 +98,7 @@ def extract_target_sequences(fasta_file, fastq_file, output_file):
 def main():
     parser = argparse.ArgumentParser(description="Extract sequences between start and end sequences from FASTQ file")
     parser.add_argument("fasta_file", help="Path to the FASTA file containing start and end sequences")
-    parser.add_argument("fastq_file", help="Path to the FASTQ file (gzip-compressed) to search for sequences")
+    parser.add_argument("fastq_file", help="Path to the FASTQ file (gzip-compressed or uncompressed) to search for sequences")
     parser.add_argument("output_file", help="Path to the output file to store extracted sequences")
     args = parser.parse_args()
 
